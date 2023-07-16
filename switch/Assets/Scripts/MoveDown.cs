@@ -16,5 +16,10 @@ public class MoveDown : MonoBehaviour
     void Update()
     {
     	transform.Translate( Vector3.down * speed * Time.deltaTime );
+    	//speed += 0.5f;
+    	
+    	if(transform.position.y <= -5f)
+    		Destroy(gameObject);
+    		
     }
 }

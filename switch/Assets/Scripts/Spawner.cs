@@ -5,24 +5,27 @@ using UnityEngine;
 public class Spawner : MonoBehaviour
 {
 	// variables
-	public GameObject prefab;
+	public GameObject prefab, Star;
 	public float spawnRate = 1.6f;
-	int x;
+	int x , y;
+	float gameSpeed = 1.5f;
 	
-	GameObject pipes;
+	GameObject pipes , stars;
     // Start is called before the first frame update
 
 
     // Update is called once per frame
     void Update()
     {
-        
+    	gameSpeed -= 0.5f;
+    	if(gameSpeed == 0)
+    		gameSpeed = 1f;
     }
     
     
     void OnEnable()
     {
-    	InvokeRepeating(nameof(Spawn) , spawnRate , spawnRate);
+    	InvokeRepeating(nameof(Spawn) , spawnRate , spawnRate * gameSpeed);
     }
     
     void OnDisable()
@@ -34,16 +37,22 @@ public class Spawner : MonoBehaviour
     {
     	System.Random rnd = new System.Random();
     	x = Random.Range(0 , 2);
+    	y = Random.Range(0 , 2);
     	
     	if(x < 1 && x >= 0)
     	{
     		pipes = Instantiate(prefab,transform.position,Quaternion.identity);
+    		if(y < 1 && y >= 0)
+    			 stars = Instantiate(Star,transform.position,Quaternion.identity);
     	}
 
     	else
     	{
     		prefab.transform.position = new Vector3( -transform.position.x ,transform.position.y ,transform.position.z);
     		pipes = Instantiate(prefab,prefab.transform.position,Quaternion.identity);
+    		
+    		if(y < 1 && y >= 0)
+    			 stars = Instantiate(Star,transform.position,Quaternion.identity);
     		
     	}
     	
